@@ -3,16 +3,35 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <button ion-button style='float:right;background-color:inherit' (click)='goToEvent({ id: null, time: "", readableTime: "", event: "" })'>
+      <ion-icon name="add" style='font-size:2.8rem; color:#488aff'></ion-icon>
+    </button>
     <ion-title>Home</ion-title>
+
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content>
+  <div>
+    <ion-list style='width:100%;margin:0px;'>
+      <button ion-item *ngFor="let item of dayEvents" style='margin-top:0px' (click)='goToEvent(item)'>
+        <div class="item-note" style='font-size:12px'>
+          {{item.readableTime}}
+        </div>
+        <div class="item-note" style='text-align: center;margin-left: 6px;'>
+          <!--<ion-icon name="wifi" style='float:left;font-size: 21px'></ion-icon>-->
+          {{item.event ? item.event : 'No Event'}}
+        </div>
+      </button>
+    </ion-list>
+    <div style='height:60px;width:100%'></div>
+  </div>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <div style='position:fixed;bottom:0;height:60px;text-align:center;background-color:#66adff;width:100%'>
+    <div style='color:white;font-size:18px;'>
+      <ion-icon name="arrow-back" style='float:left;padding-left:20px;line-height:55px;font-size:2em;' (click)='goBackDate()'></ion-icon>
+      <span style='line-height:55px;'>{{currentDate.readable}}</span>
+      <ion-icon name="arrow-forward" style='float:right;padding-right:20px;line-height:55px;font-size:2em;' (click)='goForwardDate()'></ion-icon>
+    </div>
+  </div>
 </ion-content>

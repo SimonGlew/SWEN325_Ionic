@@ -1,0 +1,45 @@
+<!--
+  Generated template for the EventsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{event.id ? 'Edit Event' : 'Create Event'}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div style='width:100%;text-align: center;padding-bottom:30px;'>
+    <h2>Event for {{readableDate}}</h2>
+  </div>
+  <div style='width:100%;padding-bottom:30px;'>
+    Pick Event
+    <ion-item>
+      <ion-label>Event</ion-label>
+      <ion-select [(ngModel)]="event.event" multiple="false">
+        <ion-option *ngFor="let eventType of allEventTypes">{{eventType}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  <div>
+    Pick Time
+    <ion-item>
+      <ion-label>Time</ion-label>
+      <ion-select [(ngModel)]="event.readableTime" multiple="false">
+        <ion-option *ngFor="let time of allTimes">{{_formatTime(time)}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <button ion-button (click)='saveEvent()' style='margin-top:15px;width:100%'>{{!event.id ? 'Save Event' : 'Save Edit'}}</button>
+
+
+  <!-- <div>{{readableDate}}</div>
+  <div>{{event.readableTime}} {{event.event}} {{}}</div> -->
+
+</ion-content>

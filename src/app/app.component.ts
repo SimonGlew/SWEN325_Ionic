@@ -1,10 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { RegisterPage } from '../pages/register/register';
+import { LoginPage } from '../pages/login/login';
+import { ProfilePage } from '../pages/profile/profile';
+import { UserProvider } from '../providers/user/user';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,17 +19,24 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
-
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  pages: Array<{ title: string, component: any }>;
+  user: any
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public events: Events, public userProvider: UserProvider) {
     this.initializeApp();
-
+    this.user = null
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Home', component: HomePage }
     ];
 
+    this.events.subscribe("user:login", (user) => {
+      this.user = user;
+    });
+
+    this.events.subscribe("user:logout", (user) => {
+      this.user = null;
+      this.nav.setRoot(HomePage);
+    });
   }
 
   initializeApp() {
@@ -40,5 +52,21 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  registerUser() {
+    this.nav.push(RegisterPage, {});
+  }
+
+  login() {
+    this.nav.push(LoginPage, {});
+  }
+
+  profile() {
+    this.nav.push(ProfilePage, {});
+  }
+
+  logout(){
+    this.userProvider.logout()
   }
 }

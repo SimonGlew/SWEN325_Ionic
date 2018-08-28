@@ -11,6 +11,12 @@
         {{p.title}}
       </button>
     </ion-list>
+    <div style='position:fixed;bottom:0;width:100%'>
+      <button menuClose ion-item *ngIf="!user" (click)="registerUser()">Register</button>
+      <button menuClose ion-item *ngIf="!user" (click)="login()">Login</button>
+      <button menuClose ion-item *ngIf="user" (click)="logout()">Logout</button>
+      <button menuClose ion-item *ngIf="user" (click)="profile()">{{user.name}} - Profile</button>
+    </div>
   </ion-content>
 
 </ion-menu>
