@@ -18,10 +18,8 @@ export class UserProvider {
 	}
 
 	public addUser(user: any) {
-		console.log('a')
 		return this.db.addUser(user)
 			.then(res => {
-				console.log('res', res)
 				return res
 			})
 	}

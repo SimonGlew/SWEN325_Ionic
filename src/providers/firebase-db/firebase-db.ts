@@ -12,13 +12,11 @@ import { AngularFirestore } from 'angularfire2/firestore';
 export class FirebaseDbProvider {
 
 	constructor(public http: HttpClient, public fireStore: AngularFirestore) {
-		console.log('Hello FirebaseDbProvider Provider');
 	}
 
 	public addUser(user: any): Promise<any> {
 		return this.getDataOneWhere('/users', ['email', '==', user.email])
 			.then((data: any) => {
-				console.log('data', data)
 				if (data.length >= 1) {
 					return false;
 				} else {
@@ -36,7 +34,7 @@ export class FirebaseDbProvider {
 			})
 	}
 
-	public makeNewEvent(event: any, date: Date, userid: String) {
+	public makeNewEvent(event: any, date: any, userid: String) {
 		let data = { event: event, date: date }
 		return this.fireStore.collection<any>('users/' + userid + '/events').add(data)
 			.then(() => { return true })
@@ -84,5 +82,22 @@ export class FirebaseDbProvider {
 					resolve(list)
 				})
 		})
+	}
+
+	public checkIfEventExists(event:any, date:any, userId:any) {
+		return this.getDataTwoWhere('users/' + userId + '/events', ['date', '==', date, 'event.time', '==', event.time])
+			.then(list => {
+				return list ? list[0].id : null
+			})
+			.catch(() => {
+				return null;
+			})
+	}
+
+	public removeEvent(eventId: any, user: any){
+		if(!user.id) return
+
+		return this.fireStore.collection('users/' + user.id + '/events/').doc(eventId)
+			.delete()
 	}
 }

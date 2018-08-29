@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{event.id ? 'Edit Event' : 'Create Event'}}</ion-title>
+    <ion-title>{{(event.id || event.local)  ? 'Edit Event' : 'Create Event'}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <div style='width:100%;text-align: center;padding-bottom:30px;'>
-    <h2>Event for {{readableDate}}</h2>
+    <h2>Event for {{readableDate}} {{ (event.id || event.local) ? '(' + event.readableTime + ')' : '' }}</h2>
   </div>
   <div style='width:100%;padding-bottom:30px;'>
     Pick Event
@@ -26,17 +26,35 @@
       </ion-select>
     </ion-item>
   </div>
-  <div>
+  <div *ngIf='(!event.id && !event.local) '>
     Pick Time
-    <ion-item>
-      <ion-label>Time</ion-label>
-      <ion-select [(ngModel)]="event.readableTime" multiple="false">
-        <ion-option *ngFor="let time of allTimes">{{_formatTime(time)}}</ion-option>
-      </ion-select>
-    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col width-50>
+          <ion-item>
+            <ion-label>Start Time</ion-label>
+            <ion-select [(ngModel)]="startTime" multiple="false">
+              <ion-option *ngFor="let time of allTimes">{{_formatTime(time)}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col width-50>
+          <ion-item>
+            <ion-label>End Time</ion-label>
+            <ion-select [(ngModel)]="endTime" multiple="false" [disabled]="startTime == '11pm'">
+              <ion-option *ngFor="let time of allTimes">{{_formatTime(time)}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
+  <button ion-button (click)='saveEvent()' style='margin-top:15px;width:100%'>{{(!event.id && !event.local) ? 'Save Event' : 'Save Edit'}}</button>
 
-  <button ion-button (click)='saveEvent()' style='margin-top:15px;width:100%'>{{!event.id ? 'Save Event' : 'Save Edit'}}</button>
+
+  <div *ngIf='(event.id || event.local)'>
+      <button ion-button class='delete' (click)='deleteEvent()'>Delete Event</button>
+  </div>
 
 
   <!-- <div>{{readableDate}}</div>

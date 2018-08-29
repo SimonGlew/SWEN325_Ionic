@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { UserProvider } from '../../providers/user/user';
+import { EventsProvider } from '../../providers/events/events';
 
 /**
  * Generated class for the ProfilePage page.
@@ -14,12 +16,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  loading: boolean;
+  user: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider, public eventProvider: EventsProvider) {
+    this.loading = false;
+    this.user = this.userProvider.getCurrentUser()
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
   }
 
+
+  migrateLocal() {
+    this.loading = true
+    return this.eventProvider.migrateLocal()
+      .then(() => {
+        this.loading = false
+      })
+    // setTimeout(() => {
+    //   this.loading = false
+    // }, 5000);
+  }
 }

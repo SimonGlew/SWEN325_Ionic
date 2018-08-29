@@ -7,12 +7,26 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>profile</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<!-- <ion-content *ngIf='loading' style='background-color:grey'>
 
+</ion-content> -->
+
+<ion-content padding [ngClass]="loading ? 'loading' : 'normal'">
+  <div *ngIf='!loading'>
+      <img src="assets/imgs/noavatar.png">
+      <span style='font-size:1.25em'>
+        {{user.name}}
+      </span>
+  </div>
+
+  <button ion-button *ngIf='!loading' (click)='migrateLocal()' style='margin-top:50px;width:100%'>Migrate Offline Data</button>
+  <div *ngIf='loading' style='text-align: center;margin-left:-50px;'>
+      <ion-spinner></ion-spinner>
+  </div>
 </ion-content>
