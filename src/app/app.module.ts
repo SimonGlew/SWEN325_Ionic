@@ -21,6 +21,10 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { FirebaseDbProvider } from '../providers/firebase-db/firebase-db';
 import { EventsPage } from '../pages/events/events';
+import { CategoriesProvider } from '../providers/categories/categories';
+import { ResultsProvider } from '../providers/results/results';
+import { ResultsPage } from '../pages/results/results';
+import { CategoriesPage } from '../pages/categories/categories';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,9 @@ import { EventsPage } from '../pages/events/events';
     LoginPage,
     ProfilePage,
     RegisterPage,
-    EventsPage
+    EventsPage,
+    ResultsPage,
+    CategoriesPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,9 @@ import { EventsPage } from '../pages/events/events';
     LoginPage,
     ProfilePage,
     RegisterPage,
-    EventsPage
+    EventsPage,
+    ResultsPage,
+    CategoriesPage
   ],
   providers: [
     HttpClientModule,
@@ -64,7 +72,9 @@ import { EventsPage } from '../pages/events/events';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserProvider,
     EventsProvider,
-    FirebaseDbProvider
+    FirebaseDbProvider,
+    CategoriesProvider,
+    ResultsProvider
   ]
 })
 export class AppModule { }
