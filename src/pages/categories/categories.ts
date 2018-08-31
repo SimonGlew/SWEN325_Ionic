@@ -50,8 +50,8 @@ export class CategoriesPage {
 	}
 
 	public saveCategories(){
-		let check = this.categories.filter(r => r.name == '' || r.edit == true)
-		if(!check){
+		let check = this.categories.filter(r => r.name == '' || r.edit)
+		if(!check.length){
 			this.categoriesProvider.saveCategories(this.categories.map(r => r.name))
 		}else{
 			this.alertCtrl.create({

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserProvider } from '../user/user';
 import { Events } from 'ionic-angular';
 
+import { Storage } from '@ionic/storage';
 /*
   Generated class for the CategoriesProvider provider.
 
@@ -21,9 +22,9 @@ export class CategoriesProvider {
     let user = this.userProvider.getCurrentUser()
 
     if (user) {
-      this.storage.setItem((user.id + '_categories'), categories)
+      this.storage.set((user.id + '_categories'), categories)
     } else {
-      this.storage.setItem(('local_categories'), categories)
+      this.storage.set(('local_categories'), categories)
     }
   }
 
@@ -38,7 +39,7 @@ export class CategoriesProvider {
     } else {
       return this.storage.get('local_categories')
         .then(categories => {
-          this.events.publish('categories:getAll', categories)
+            this.events.publish('categories:getAll', categories)
         })
     }
   }

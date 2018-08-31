@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { FirebaseDbProvider } from '../firebase-db/firebase-db';
 import { UserProvider } from '../user/user';
 import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+
 
 /*
   Generated class for the ResultsProvider provider.

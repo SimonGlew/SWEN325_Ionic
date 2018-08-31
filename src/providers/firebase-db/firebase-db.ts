@@ -59,17 +59,18 @@ export class FirebaseDbProvider {
 		})
 	}
 
-	public getDataTwoWhere(collection: any, query: any) {
+	public getDataTwoWhere<{ data:any }>(collection: any, query: any) {
 		let list = []
-		return new Promise((resolve, reject) => {
-			return this.fireStore.collection(collection, (ref) => ref.where('a', '==', 'a'))
-				.ref.where(query[0], query[1], query[2]).where(query[3], query[4], query[5])
-				.get()
-				.then(data => {
-					data.forEach(d => list.push({ id: d.id, data: d.data() }))
-					resolve(list)
+		return this.fireStore.collection(collection, (ref) => ref.where('a', '==', 'a'))
+			.ref.where(query[0], query[1], query[2]).where(query[3], query[4], query[5])
+			.get()
+			.then(data => {
+				list = []
+				data.forEach(d => {
+					list.push({ id: d.id, data: d.data() })
 				})
-		})
+				return list
+			})
 	}
 
 	public getData(collection: any, query: any) {
@@ -78,13 +79,14 @@ export class FirebaseDbProvider {
 			return this.fireStore.collection(collection, (ref) => ref.where('a', '==', 'a'))
 				.ref.get()
 				.then(data => {
+
 					data.forEach(d => list.push({ id: d.id, data: d.data() }))
 					resolve(list)
 				})
 		})
 	}
 
-	public checkIfEventExists(event:any, date:any, userId:any) {
+	public checkIfEventExists(event: any, date: any, userId: any) {
 		return this.getDataTwoWhere('users/' + userId + '/events', ['date', '==', date, 'event.time', '==', event.time])
 			.then(list => {
 				return list ? list[0].id : null
@@ -94,8 +96,8 @@ export class FirebaseDbProvider {
 			})
 	}
 
-	public removeEvent(eventId: any, user: any){
-		if(!user.id) return
+	public removeEvent(eventId: any, user: any) {
+		if (!user.id) return
 
 		return this.fireStore.collection('users/' + user.id + '/events/').doc(eventId)
 			.delete()

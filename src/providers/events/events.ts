@@ -7,7 +7,6 @@ import { Events } from 'ionic-angular';
 import { UserProvider } from '../user/user';
 
 import * as _Promise from 'bluebird'
-import { relativeTimeRounding } from '../../../node_modules/moment';
 
 /*
   Generated class for the EventsProvider provider.
@@ -54,7 +53,7 @@ export class EventsProvider {
 					return events
 				})
 		} else {
-			return _Promise.map(events, async (event) => {
+			return _Promise.map(events, async (event:any) => {
 				let checkEvent = await this.db.checkIfEventExists(event, date, user.id)
 				if(!checkEvent){
 					delete event.id

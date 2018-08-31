@@ -41,6 +41,7 @@ export class EventsPage {
 		}
 
 		this.events.subscribe('categories:getAll', (categories) => {
+			console.log('a', categories)
 			if(categories && categories.length){
 				this.allEventTypes = categories
 			}
