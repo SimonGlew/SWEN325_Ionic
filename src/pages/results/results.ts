@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { ResultsProvider } from '../../providers/results/results';
 import { UserProvider } from '../../providers/user/user';
 
@@ -21,12 +21,21 @@ export class ResultsPage {
 	loading: boolean;
 	results: any;
 	maxY: any;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public resultProvider: ResultsProvider, public userProvider: UserProvider) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public resultProvider: ResultsProvider, public userProvider: UserProvider, public events: Events) {
 		this.loading = false;
 		this.startDate = new Date()
 		this.endDate = new Date()
 		this.results = []
 		this.maxY = 1
+
+		this.events.subscribe("results:getAll", (results) => {
+			this.loading = false;
+			Object.keys(results).forEach(key => {
+				this.results.push({ x: key, y: results[key] })
+				this.maxY = Math.max(this.maxY, results[key])
+			})
+			this.drawGraphAndTable()
+		})
 	}
 
 	ionViewDidLoad() {
@@ -40,15 +49,6 @@ export class ResultsPage {
 			let user = this.userProvider.getCurrentUser()
 			this.loading = true
 			return this.resultProvider.getResults(this.startDate, this.endDate, user.id)
-				.then(results => {
-					this.loading = false;
-					Object.keys(results).forEach(key => {
-						this.results.push({ x: key, y: results[key] })
-						this.maxY = Math.max(this.maxY, results[key])
-
-						this.drawGraphAndTable()
-					})
-				})
 		}
 	}
 

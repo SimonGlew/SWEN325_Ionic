@@ -14,5 +14,18 @@
 
 
 <ion-content padding>
+  <div *ngIf='loading' style='text-align: center;margin-left:-50px;'>
+    <ion-spinner></ion-spinner>
+  </div>
+  <div id='table' *ngIf='!loading'>
+    <div class="row header">
+      <div class="col">Event</div>
+      <div class="col">Amount (Hours)</div>
+    </div>
+    <div class="row" ng-repeat="event in results">
+      <div class="col">{{event.x}}</div>
+      <div class="col">{{event.y}}</div>
+    </div>
+  </div>
 
 </ion-content>

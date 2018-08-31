@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserProvider } from '../user/user';
+import { Events } from 'ionic-angular';
 
 /*
   Generated class for the CategoriesProvider provider.
@@ -11,7 +12,7 @@ import { UserProvider } from '../user/user';
 @Injectable()
 export class CategoriesProvider {
 
-  constructor(public http: HttpClient, public storage: Storage, public userProvider: UserProvider) {
+  constructor(public http: HttpClient, public storage: Storage, public events: Events, public userProvider: UserProvider) {
     console.log('Hello CategoriesProvider Provider');
   }
 
@@ -32,12 +33,12 @@ export class CategoriesProvider {
     if (user) {
       return this.storage.get(String(user.id + '_categories'))
         .then(categories => {
-          return categories
+          this.events.publish('categories:getAll', categories)
         })
     } else {
       return this.storage.get('local_categories')
         .then(categories => {
-          return categories
+          this.events.publish('categories:getAll', categories)
         })
     }
   }

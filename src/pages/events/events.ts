@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { EventsProvider } from '../../providers/events/events';
 import { HomePage } from '../home/home';
+import { CategoriesProvider } from '../../providers/categories/categories';
 
 
 /**
@@ -25,7 +26,7 @@ export class EventsPage {
 	allTimes: any;
 	startTime: any;
 	endTime: any;
-	constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider, public eventProvider: EventsProvider, public alertCtrl: AlertController) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public categoriesProvider: CategoriesProvider, public userProvider: UserProvider, public eventProvider: EventsProvider, public events: Events, public alertCtrl: AlertController) {
 		this.event = this.navParams.get('event')
 		this.readableDate = this.navParams.get('readableDate')
 		this.currentDate = this.navParams.get('currentDate').setHours(0, 0, 0, 0)
@@ -38,6 +39,14 @@ export class EventsPage {
 		for (let i = 0; i < 24; i++) {
 			this.allTimes.push(i)
 		}
+
+		this.events.subscribe('categories:getAll', (categories) => {
+			if(categories && categories.length){
+				this.allEventTypes = categories
+			}
+		})
+
+		this.categoriesProvider.loadCategories()
 	}
 
 	_formatTime(time) {

@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button style='float:right;background-color:inherit' (click)='addCategory()'>
+      <ion-icon name="add" style='font-size:2.8rem; color:#488aff'></ion-icon>
+    </button>
     <ion-title>Manage Categories</ion-title>
   </ion-navbar>
 
@@ -14,5 +17,27 @@
 
 
 <ion-content padding>
-
+  <div>
+    <ion-grid style='width:100%;margin:0px;'>
+      <ion-row *ngFor="let item of allEventTypes; let i=index" style='margin-top:0px'>
+        <ion-col col-8 *ngIf='!item.edit'>
+          <ion-item>
+            <ion-input [(ngModel)]="item.name" placeholder="" readonly clearInput>{{item.name}}</ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-8 *ngIf='item.edit'>
+          <ion-item>
+            <ion-input [(ngModel)]="item.name" placeholder="" clearInput>{{item.name}}</ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf='!item.edit'>
+          <button ion-button color="light" (click)='editCategory(i)'>Edit</button>
+          <button ion-button color="light" (click)='deleteCategory(i)'>Delete</button>
+        </ion-col>
+        <ion-col *ngIf='item.edit'>
+          <button ion-button color="light" (click)='saveCategory(i)'>Save</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

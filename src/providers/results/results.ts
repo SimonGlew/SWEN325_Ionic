@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FirebaseDbProvider } from '../firebase-db/firebase-db';
 import { UserProvider } from '../user/user';
+import { Events } from 'ionic-angular';
 
 /*
   Generated class for the ResultsProvider provider.
@@ -12,7 +13,7 @@ import { UserProvider } from '../user/user';
 @Injectable()
 export class ResultsProvider {
 
-	constructor(public http: HttpClient, public storage: Storage, public db: FirebaseDbProvider, public userProvider: UserProvider) {
+	constructor(public http: HttpClient, public storage: Storage, public events: Events, public db: FirebaseDbProvider, public userProvider: UserProvider) {
 		console.log('Hello ResultsProvider Provider');
 	}
 
@@ -30,7 +31,7 @@ export class ResultsProvider {
 					})
 				}
 			})
-			return Promise.resolve(results)
+			this.events.publish("results:getAll", results)
 		} else {
 			return this.db.getDataTwoWhere('users/' + userId + '/events', ['date', '>=', parseInt(startDate), 'date', '<=', parseInt(endDate)])
 				.then(data => {
@@ -41,8 +42,7 @@ export class ResultsProvider {
 						}
 						results[event.event] += 1
 					})
-
-					return results
+					this.events.publish("results:getAll", results)
 				})
 		}
 	}
