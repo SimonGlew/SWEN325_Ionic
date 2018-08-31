@@ -59,7 +59,7 @@ export class FirebaseDbProvider {
 		})
 	}
 
-	public getDataTwoWhere<{ data:any }>(collection: any, query: any) {
+	public getDataTwoWhere(collection: any, query: any): any {
 		let list = []
 		return this.fireStore.collection(collection, (ref) => ref.where('a', '==', 'a'))
 			.ref.where(query[0], query[1], query[2]).where(query[3], query[4], query[5])

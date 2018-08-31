@@ -23,17 +23,16 @@ export class ResultsProvider {
 		let results = {}
 		if (!userId) {
 			this.storage.forEach((value, key, index) => {
-				if (key >= startDate && key <= endDate) {
+				if (parseInt(key) >= startDate && parseInt(key) <= endDate) {
 					value.forEach(v => {
 						let data = v.data.event
-						if (!results[data.event]) {
-							results[data.event] = 0
-						}
-						results[data.event] += 1
+						results[data.event] = !results[data.event] ? 1 : results[data.event] += 1
 					})
 				}
 			})
-			this.events.publish("results:getAll", results)
+				.then(() => {
+					this.events.publish("results:getAll", results)
+				})
 		} else {
 			return this.db.getDataTwoWhere('users/' + userId + '/events', ['date', '>=', parseInt(startDate), 'date', '<=', parseInt(endDate)])
 				.then(data => {

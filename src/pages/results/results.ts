@@ -23,19 +23,25 @@ export class ResultsPage {
 	maxY: any;
 	constructor(public navCtrl: NavController, public navParams: NavParams, public resultProvider: ResultsProvider, public userProvider: UserProvider, public events: Events) {
 		this.loading = false;
-		this.startDate = new Date()
-		this.endDate = new Date()
+		this.startDate = new Date().toISOString()
+		this.endDate = new Date().toISOString()
 		this.results = []
 		this.maxY = 1
 
 		this.events.subscribe("results:getAll", (results) => {
+			this.results = []
 			this.loading = false;
+			console.log('results', results)
 			Object.keys(results).forEach(key => {
 				this.results.push({ x: key, y: results[key] })
 				this.maxY = Math.max(this.maxY, results[key])
 			})
-			this.drawGraphAndTable()
+
+			this.results.sort((a,b) => b.y - a.y)
+			
+			console.log(this.results)
 		})
+		this.getResults()
 	}
 
 	ionViewDidLoad() {
@@ -43,12 +49,15 @@ export class ResultsPage {
 	}
 
 	getResults() {
-		if(this.startDate >= this.endDate){
+		let start = Date.parse(this.startDate) - 86400000,
+		end = Date.parse(this.endDate)
+		if(start <= end){
 			this.results = []
 			this.maxY = 1
 			let user = this.userProvider.getCurrentUser()
+			user = user ? user.id : null
 			this.loading = true
-			return this.resultProvider.getResults(this.startDate, this.endDate, user.id)
+			return this.resultProvider.getResults(start, end, user)
 		}
 	}
 

@@ -18,8 +18,8 @@
 </ion-content> -->
 
 <ion-content padding [ngClass]="loading ? 'loading' : 'normal'">
-  <div *ngIf='!loading'>
-      <img src="assets/imgs/noavatar.png">
+  <div *ngIf='!loading' style='display:flex;align-items:center;'>
+      <img src="assets/imgs/noavatar.png" style='padding-right:20px'>
       <span style='font-size:1.25em'>
         {{user.name}}
       </span>

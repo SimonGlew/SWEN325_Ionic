@@ -1,19 +1,23 @@
 page-results {
     .header .col {
-        background-color:lightgrey;
+        background-color:white;
+      }
+
+      .centerAlign{
+        text-align: center;
       }
       
       .col {
-        border: solid 1px grey;
+        border: solid 1px black;
         border-bottom-style: none;
         border-right-style: none;
       }
       
       .col:last-child {
-        border-right: solid 1px grey;
+        border-right: solid 1px black;
       }
       
       .row:last-child .col {
-        border-bottom: solid 1px grey;
+        border-bottom: solid 1px black;
       }
 }

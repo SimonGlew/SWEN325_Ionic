@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>results</ion-title>
+    <ion-title>Results</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -20,15 +20,31 @@
   <div *ngIf='loading' style='text-align: center;margin-left:-50px;'>
     <ion-spinner></ion-spinner>
   </div>
-  <div id='table' *ngIf='!loading'>
-    <div class="row header">
-      <div class="col">Event</div>
-      <div class="col">Amount (Hours)</div>
-    </div>
-    <div class="row" ng-repeat="event in results">
-      <div class="col">{{event.x}}</div>
-      <div class="col">{{event.y}}</div>
-    </div>
+  <div *ngIf='!loading' style='border:0px solid black'>
+    <ion-row>
+      <ion-col style='border:0px solid black'>
+        <ion-item>
+          <ion-label>Start Date</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="startDate" (ionChange)="getResults()"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col style='border:0px solid black'>
+        <ion-item>
+          <ion-label>End Date</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="endDate" (ionChange)="getResults()"></ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
   </div>
 
+  <ion-grid id='table' *ngIf='!loading' style='padding-top:15px;'>
+    <ion-row class='header' style='height:40px;'>
+      <ion-col class='centerAlign'>Event</ion-col>
+      <ion-col class='centerAlign'>Amount (Hours)</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let event of results" style='margin-top:0px;height:30px'>
+      <ion-col>{{event.x}}</ion-col>
+      <ion-col style='text-align:right;'>{{event.y}}</ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

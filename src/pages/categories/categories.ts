@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events, AlertController } from 'ionic-angular';
 import { CategoriesProvider } from '../../providers/categories/categories';
 
+import { HomePage } from '../home/home';
+
 /**
  * Generated class for the CategoriesPage page.
  *
@@ -53,6 +55,7 @@ export class CategoriesPage {
 		let check = this.categories.filter(r => r.name == '' || r.edit)
 		if(!check.length){
 			this.categoriesProvider.saveCategories(this.categories.map(r => r.name))
+			this.navCtrl.setRoot(HomePage)
 		}else{
 			this.alertCtrl.create({
 				title: 'Cannot Save Categories!',

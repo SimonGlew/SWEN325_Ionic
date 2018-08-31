@@ -28,8 +28,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'Manage Categories', component: CategoriesPage, nav: true },
-      { title: 'Results', component: ResultsPage, nav: true }
+      { title: 'Manage Categories', component: CategoriesPage },
+      { title: 'Results', component: ResultsPage }
     ];
 
     this.events.subscribe("user:login", (user) => {
@@ -52,13 +52,9 @@ export class MyApp {
   }
 
   openPage(page) {
-    if (page.nav) {
-      this.nav.push(page.component, {})
-    } else {
-      // Reset the content nav to have just this page
-      // we wouldn't want the back button to show in this scenario
-      this.nav.setRoot(page.component);
-    }
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+    this.nav.setRoot(page.component);
   }
 
   registerUser() {
