@@ -6,7 +6,10 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <button ion-button style='float:right;background-color:inherit' (click)='addCategory()'>
       <ion-icon name="add" style='font-size:2.8rem; color:#488aff'></ion-icon>
     </button>
